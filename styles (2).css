@@ -1,0 +1,302 @@
+@import "@fontsource-variable/figtree/wght.css";
+@import "@fontsource-variable/newsreader/wght.css";
+@import "tailwindcss";
+
+/* Tokens live here. Components use the utilities and the classes below —
+   don't sprinkle one-off colors in the page. */
+:root {
+  color-scheme: light;
+  --background: #f4f3ef;
+  --foreground: #1c1c1a;
+  --card: #fbfaf7;
+  --elevated: #efeee8;
+  --muted-foreground: #5c5a55;
+  --subtle-foreground: #6f6d66;
+  --border: #e3e1d8;
+  --border-strong: #d0cdc4;
+  --primary: #1c1c1a;
+  --primary-foreground: #f7f6f2;
+  --keep: #215c38;
+  --skip: #8a3d3a;
+  --warn: #7a5a28;
+  --ring: #1c1c1a;
+  --font-body: "Figtree Variable", "Segoe UI", system-ui, sans-serif;
+  --font-display-family: "Newsreader Variable", Georgia, "Iowan Old Style", serif;
+  --radius-sm: 8px;
+  --radius-xl: 24px;
+  --motion-quick: 150ms;
+  --motion-fast: 250ms;
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.dark {
+  color-scheme: dark;
+  --background: #0e0e10;
+  --foreground: #f4f4f5;
+  --card: #161618;
+  --elevated: #1e1e22;
+  --muted-foreground: #b4b4bc;
+  --subtle-foreground: #9a9aa3;
+  --border: #2c2c32;
+  --border-strong: #3f3f46;
+  --primary: #f4f4f5;
+  --primary-foreground: #141416;
+  --keep: #9dbea8;
+  --skip: #e0b0ad;
+  --warn: #e0c392;
+  --ring: #f4f4f5;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-elevated: var(--elevated);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-keep: var(--keep);
+  --color-skip: var(--skip);
+  --color-warn: var(--warn);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display-family);
+  --radius-sm: 8px;
+  --radius-xl: 24px;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  html {
+    background: var(--background);
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.5;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--foreground) 18%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.shell {
+  width: min(100%, 36rem);
+  margin-inline: auto;
+  padding-top: max(1.25rem, env(safe-area-inset-top));
+  padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.wordmark {
+  font-family: var(--font-display-family);
+  font-weight: 500;
+  font-size: 2.25rem;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1rem;
+}
+
+.panel.is-featured {
+  border-color: var(--foreground);
+}
+
+.field {
+  width: 100%;
+  min-height: 2.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.field::placeholder {
+  color: var(--subtle-foreground);
+}
+
+.field:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-color: var(--foreground);
+}
+
+textarea.field {
+  min-height: 4.75rem;
+  resize: vertical;
+}
+
+select.field {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted-foreground) 50%),
+    linear-gradient(135deg, var(--muted-foreground) 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.1rem) 55%,
+    calc(100% - 0.75rem) 55%;
+  background-size:
+    0.35rem 0.35rem,
+    0.35rem 0.35rem;
+  background-repeat: no-repeat;
+  padding-right: 1.75rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    background-color var(--motion-quick) var(--ease-smooth-out),
+    color var(--motion-quick) var(--ease-smooth-out),
+    border-color var(--motion-quick) var(--ease-smooth-out),
+    opacity var(--motion-quick) var(--ease-smooth-out),
+    transform var(--motion-quick) var(--ease-smooth-out);
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+.btn-secondary {
+  border-color: var(--border);
+  background: transparent;
+}
+
+.btn-secondary:hover,
+.btn-secondary[aria-pressed="true"] {
+  background: var(--elevated);
+}
+
+.btn-quiet {
+  color: var(--muted-foreground);
+}
+
+.btn-danger {
+  color: var(--skip);
+  border-color: var(--border);
+}
+
+.btn-block {
+  width: 100%;
+  min-height: 3rem;
+}
+
+.icon-btn {
+  width: 2.75rem;
+  padding-inline: 0;
+  flex: none;
+}
+
+.status-btn[aria-pressed="true"][data-status="to-check"] {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--foreground);
+}
+
+.status-btn[aria-pressed="true"][data-status="keeper"] {
+  background: color-mix(in oklab, var(--keep) 18%, transparent);
+  color: var(--keep);
+  border-color: color-mix(in oklab, var(--keep) 42%, transparent);
+}
+
+.status-btn[aria-pressed="true"][data-status="skip"] {
+  background: color-mix(in oklab, var(--skip) 16%, transparent);
+  color: var(--skip);
+  border-color: color-mix(in oklab, var(--skip) 40%, transparent);
+}
+
+.tone-keeper {
+  color: var(--keep);
+}
+
+.tone-skip {
+  color: var(--skip);
+}
+
+.twist {
+  transition: transform var(--motion-fast) var(--ease-smooth-out);
+}
+
+details[open] .twist {
+  transform: rotate(180deg);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--foreground);
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
